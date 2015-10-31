@@ -11,3 +11,14 @@
  :active-panel
  (fn [db _]
    (reaction (:active-panel @db))))
+
+(re-frame/register-sub
+ :animals
+ (fn [db _]
+   (reaction (vals (get-in @db [:animals])))))
+
+(re-frame/register-sub
+ :search-filter
+ (fn [db _]
+   (reaction (:search-filter @db))))
+

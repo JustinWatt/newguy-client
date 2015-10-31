@@ -5,7 +5,8 @@
                  [reagent "0.5.1"]
                  [re-frame "0.4.1"]
                  [re-com "0.6.1"]
-                 [secretary "1.2.3"]]
+                 [secretary "1.2.3"]
+                 [expectations "2.0.9"]]
 
   :source-paths ["src/clj"]
 

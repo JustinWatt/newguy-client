@@ -11,3 +11,10 @@
  :set-active-panel
  (fn [db [_ active-panel]]
    (assoc db :active-panel active-panel)))
+
+(re-frame/register-handler
+ :set-search-filter
+ re-frame/debug
+ (fn [db [_ search-filter]]
+   (assoc-in db [:search-filter] search-filter)))
+

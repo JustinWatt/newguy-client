@@ -15,10 +15,36 @@
    :label "go to About Page"
    :href "#/about"])
 
+(defn animal-circle [animal]
+  (let [{:keys [id name breed]} animal]
+    [:div.animal.col-xs-2
+     [:h4 name]
+     [:p breed]]))
+
+(defn search-results []
+  (let [animals (re-frame/subscribe [:animals])]
+    (fn []
+      [:div
+       [:div.row
+        [:div.col-md-12
+         (for [animal @animals]
+           ^{:key (:id animal)} [animal-circle animal])]]])))
+
+(defn search-bar []
+  (fn []
+    [:div.col-md-12
+     [:div.form-group
+      [:label {:for "Search"}]
+      [:input.form-control
+       {:placeholder "Search"
+        :on-change #(re-frame/dispatch
+                     [:set-search-filter
+                      (-> % .-target.value)])}]]]))
+
 (defn home-panel []
-  [re-com/v-box
-   :gap "1em"
-   :children [[home-title] [link-to-about-page]]])
+  [:div.container-fluid
+   [:div.row [search-results]]
+   [:div.row [search-bar]]])
 
 ;; --------------------
 (defn about-title []
@@ -29,7 +55,7 @@
 (defn link-to-home-page []
   [re-com/hyperlink-href
    :label "go to Home Page"
-   :href "#/"])  
+   :href "#/"])
 
 (defn about-panel []
   [re-com/v-box
@@ -45,6 +71,4 @@
 (defn main-panel []
   (let [active-panel (re-frame/subscribe [:active-panel])]
     (fn []
-      [re-com/v-box
-       :height "100%"
-       :children [(panels @active-panel)]])))
+       [:div.container (panels @active-panel)])))
