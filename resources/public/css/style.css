@@ -1,0 +1,14 @@
+.animal {
+    max-width: 5em;
+    min-width: 5em;
+    max-height: 5em;
+    min-height: 5em;
+    border-radius: 50%;
+    background-color: SkyBlue;
+}
+
+.center-block {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
