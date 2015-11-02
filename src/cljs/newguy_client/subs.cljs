@@ -22,3 +22,20 @@
  (fn [db _]
    (reaction (:search-filter @db))))
 
+
+(defn matches-query?
+  [search-filter animal]
+  (if (= "" search-filter)
+    true
+    (boolean (or
+              (re-find (re-pattern search-filter) (.toLowerCase (:name animal)))
+              (re-find (re-pattern search-filter) (.toLowerCase (:breed animal)))))))
+
+(re-frame/register-sub
+ :filtered-animals
+ (let [search-filter (re-frame/subscribe [:search-filter])
+       animals       (re-frame/subscribe [:animals])]
+   (fn [db _]
+     (reaction (->> @animals
+                    (filter (partial matches-query? @search-filter)))))))
+

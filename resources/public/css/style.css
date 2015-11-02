@@ -1,14 +1,20 @@
 .animal {
-    max-width: 5em;
-    min-width: 5em;
-    max-height: 5em;
-    min-height: 5em;
+    max-width: 7em;
+    min-width: 7em;
+    max-height: 7em;
+    min-height: 7em;
     border-radius: 50%;
     background-color: SkyBlue;
+    margin: 3px;
 }
 
-.center-block {
-    display: block;
-    margin-right: auto;
-    margin-left: auto;
+.vertical-center {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  display: -webkit-flex; /* For Safari */
+  -webkit-justify-content: center; /* For Safari */
+  -webkit-align-items: center; /* For Safari */
 }

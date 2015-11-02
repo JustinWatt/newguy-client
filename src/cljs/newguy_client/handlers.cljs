@@ -14,7 +14,6 @@
 
 (re-frame/register-handler
  :set-search-filter
- re-frame/debug
  (fn [db [_ search-filter]]
-   (assoc-in db [:search-filter] search-filter)))
+   (assoc-in db [:search-filter] (.toLowerCase search-filter))))
 

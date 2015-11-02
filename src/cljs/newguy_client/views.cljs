@@ -15,24 +15,31 @@
    :label "go to About Page"
    :href "#/about"])
 
+(defn allow-drop [e]
+  (.preventDefault e))
+
 (defn animal-circle [animal]
   (let [{:keys [id name breed]} animal]
-    [:div.animal.col-xs-2
+    [:div.animal.col-md-4.col-sm-2.col-xs-4 {:id id
+                           :draggable true
+                           :on-drag-over allow-drop
+                           :on-drag-enter allow-drop}
      [:h4 name]
      [:p breed]]))
 
+
+
+
 (defn search-results []
-  (let [animals (re-frame/subscribe [:animals])]
+  (let [filtered-animals (re-frame/subscribe [:filtered-animals])]
     (fn []
-      [:div
-       [:div.row
-        [:div.col-md-12
-         (for [animal @animals]
-           ^{:key (:id animal)} [animal-circle animal])]]])))
+      [:div.text-center
+       (for [animal @filtered-animals]
+           ^{:key (:id animal)} [animal-circle animal])])))
 
 (defn search-bar []
   (fn []
-    [:div.col-md-12
+    [:div
      [:div.form-group
       [:label {:for "Search"}]
       [:input.form-control
@@ -43,8 +50,10 @@
 
 (defn home-panel []
   [:div.container-fluid
-   [:div.row [search-results]]
-   [:div.row [search-bar]]])
+   [:div.row
+    [:div.col-md-12.vertical-center [search-results]]]
+   [:div.row
+    [:div.col-md-12 [search-bar]]]])
 
 ;; --------------------
 (defn about-title []
