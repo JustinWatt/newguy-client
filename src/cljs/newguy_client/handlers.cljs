@@ -15,5 +15,14 @@
 (re-frame/register-handler
  :set-search-filter
  (fn [db [_ search-filter]]
-   (assoc-in db [:search-filter] (.toLowerCase search-filter))))
+   (assoc-in db [:search-filter] (.trim (.toLowerCase search-filter)))))
 
+(re-frame/register-handler
+ :change-animal-yard
+ (fn [db [_ animal_id yard_id]]
+   (assoc-in db [:animals animal_id :yard_id] yard_id)))
+
+(re-frame/register-handler
+ :set-active-yard
+ (fn [db [_ active-yard]]
+   (assoc db :active-yard active-yard)))

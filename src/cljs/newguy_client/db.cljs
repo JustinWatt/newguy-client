@@ -13,4 +13,6 @@
    :yards   {1 {:id 1 :name "Big Yard"}
              2 {:id 2 :name "Small Yard"}}
 
+   :active-yard 1
+
    :search-filter ""})
