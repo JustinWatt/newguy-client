@@ -70,22 +70,22 @@
   (let [animal_id (js/parseInt (.getData (.-dataTransfer e) "text/plain"))]
     (re-frame/dispatch [:change-animal-yard animal_id yard_id])))
 
-(defn yard [yard_id]
-  (let [animals-in-yard (re-frame/subscribe [:animals-in-yard yard_id])
-        yard-details    (re-frame/subscribe [:yard-by-id yard_id])]
-    (fn [yard_id]
+(defn yard []
+  (let [animals-in-yard (re-frame/subscribe [:animals-in-active-yard])
+        active-yard     (re-frame/subscribe [:active-yard-details])]
+    (fn []
       [:div.text-center
-       [:h4 (:name @yard-details)]
+       [:h4 (str (:name @active-yard))]
        [:div.well {:id "Yard"
                    :on-drag-enter allow-drop
                    :on-drag-over  allow-drop
-                   :on-drop #(change-animal-yard % yard_id)
+                   :on-drop #(change-animal-yard % (:id @active-yard))
                    :style {:height "250px"
                            :width  "450px"}}
         (generate-animal-circles @animals-in-yard)]])))
 
 
-(defn yard-component [yard]
+(defn yard-list-component [yard]
   (let [yard-id (:id yard)
         animals-in-yard (re-frame/subscribe [:animals-in-yard (:id yard)])]
     (fn []
@@ -97,11 +97,10 @@
   (let [yards (re-frame/subscribe [:yards])]
     [:div
      (for [yard @yards]
-       ^{:key (:id yard)} [yard-component yard])]))
+       ^{:key (:id yard)} [yard-list-component yard])]))
 
 
 (defn home-panel []
-  (let [active-yard (re-frame/subscribe [:active-yard])]
   [:div.container-fluid
    [:div.row
     [:div.col-md-12.text-center
@@ -112,13 +111,13 @@
    [:div.row
     [:div.col-md-12.vertical-center {:style {:min-height "104px"}} [search-results]]]
    [:div.row
-    [:div.col-md-12.vertical-center [yard @active-yard]]
-   [:div.col-md-12.vertical-center [:div.btn.btn-danger {:on-drop #(change-animal-yard % nil)
-                                                         :on-drag-over allow-drop
-                                                         :on-drag-star allow-drop} "REMOVE FROM YARD"]]]
+    [:div.col-md-12.vertical-center [yard]]
+    [:div.col-md-12.vertical-center [:div.btn.btn-danger {:on-drop #(change-animal-yard % nil)
+                                                          :on-drag-over allow-drop
+                                                          :on-drag-star allow-drop} "REMOVE FROM YARD"]]]
 
    [:div.row
-    [:div.col-md-12.vertical-center [yard-list]]]]))
+    [:div.col-md-12.vertical-center [yard-list]]]])
 
 
 ;; --------------------

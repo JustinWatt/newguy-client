@@ -17,8 +17,9 @@
                                     "test/js" ]
 
   :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.2.1"]
-                                  [org.clojure/tools.nrepl "0.2.10"]]
+                                  [org.clojure/tools.nrepl "0.2.10"] ]
                    :repl-options {:nrepl-middlware [cemerick.piggieback/wrap-cljs-repl]}}}
+
 
   :figwheel {:css-dirs ["resources/public/css"]
              :nrepl-port 7888

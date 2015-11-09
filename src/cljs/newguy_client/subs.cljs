@@ -53,6 +53,14 @@
                     (filter #(= (:yard_id %) yard_id)))))))
 
 (re-frame/register-sub
+ :animals-in-active-yard
+ (fn [db [_]]
+   (let [active-yard-id (re-frame/subscribe [:active-yard])
+         animals (re-frame/subscribe [:animals])]
+     (reaction (->> @animals
+                    (filter #(= (:yard_id %) @active-yard-id)))))))
+
+(re-frame/register-sub
  :yards
  (fn [db _]
    (reaction (vals (get-in @db [:yards])))))
