@@ -1,11 +1,7 @@
 .animal {
-    max-width: 6em;
-    min-width: 6em;
-    max-height: 6em;
-    min-height: 6em;
     border-radius: 50%;
     background-color: SkyBlue;
-    margin: 3px;
+    margin: 5px;
     color: white;
     border-style: solid;
     border-width: 2px;

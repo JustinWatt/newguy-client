@@ -1,6 +1,7 @@
 (ns newguy-client.handlers
-    (:require [re-frame.core :as re-frame]
-              [newguy-client.db :as db]))
+  (:require [com.rpl.specter :as s]
+            [newguy-client.db :as db]
+            [re-frame.core :as re-frame]))
 
 (re-frame/register-handler
  :initialize-db
@@ -26,3 +27,24 @@
  :set-active-yard
  (fn [db [_ active-yard]]
    (assoc db :active-yard active-yard)))
+
+(defn get-dogs-in-yard [db yard]
+  (->> db
+       :animals
+       vals
+       (map :yard_id)
+       (filter #(= yard %))))
+
+(re-frame/register-handler
+ :empty-yard
+ (fn [db [_ active-yard]]
+   (let [dogs-in-yard (get-dogs-in-yard db active-yard)]
+     (->> db
+          (iterate #(assoc-in db [:animals % :yard_id] nil))
+          (drop (count dogs-in-yard))
+          first))))
+
+(re-frame/register-handler
+ :set-active-animal
+ (fn [db [_ animal-id]]
+   (assoc db :active-animal animal-id)))

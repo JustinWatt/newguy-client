@@ -6,7 +6,9 @@
                  [re-frame "0.4.1"]
                  [re-com "0.6.1"]
                  [secretary "1.2.3"]
-                 [expectations "2.0.9"]]
+                 [timothypratley/reanimated "0.1.1"]
+                 [expectations "2.0.9"]
+                 [com.rpl/specter "0.8.0"]]
 
   :source-paths ["src/clj"]
 
@@ -18,13 +20,13 @@
 
   :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.2.1"]
                                   [org.clojure/tools.nrepl "0.2.10"] ]
-                   :repl-options {:nrepl-middlware [cemerick.piggieback/wrap-cljs-repl]}}}
+                   :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}}
 
 
   :figwheel {:css-dirs ["resources/public/css"]
              :nrepl-port 7888
              :nrepl-middleware ["cider.nrepl/cider-middleware"
-                                "refactor-nrepl.middlware/wrap-refactor"
+                                "refactor-nrepl.middleware/wrap-refactor"
                                 "cemerick.piggieback/wrap-cljs-repl" ]}
 
   :cljsbuild {:builds [{:id "dev"

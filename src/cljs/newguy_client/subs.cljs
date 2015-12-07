@@ -80,3 +80,14 @@
  (fn [db [_]]
    (let [yard-id (re-frame/subscribe [:active-yard])]
      (reaction (get-in @db [:yards @yard-id])))))
+
+(re-frame/register-sub
+ :active-animal
+ (fn [db [_]]
+   (reaction (@db :active-animal))))
+
+(re-frame/register-sub
+ :active-animal-relationships
+ (fn [db _]
+   (let [active-animal (re-frame/subscribe [:active-animal])]
+     (reaction (get-in @db [:relations @active-animal])))))
