@@ -8,7 +8,9 @@
                  [secretary "1.2.3"]
                  [timothypratley/reanimated "0.1.1"]
                  [expectations "2.0.9"]
-                 [com.rpl/specter "0.8.0"]]
+                 [com.rpl/specter "0.8.0"]
+                 [cljs-ajax "0.5.2"]
+                 [com.cognitect/transit-cljs "0.8.232"]]
 
   :source-paths ["src/clj"]
 

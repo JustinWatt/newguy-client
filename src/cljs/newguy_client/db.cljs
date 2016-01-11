@@ -1,5 +1,6 @@
 (ns newguy-client.db
-  (:require [com.rpl.specter :as s]))
+  (:require [ajax.core :refer [GET POST]]
+            [com.rpl.specter :as s]))
 
 (def default-db
   {:name "re-frame"

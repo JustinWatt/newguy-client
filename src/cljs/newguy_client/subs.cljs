@@ -31,11 +31,6 @@
               (re-find (re-pattern search-filter) (.toLowerCase (:breed animal)))))))
 
 (re-frame/register-sub
- :active-yard
- (fn [db _]
-   (reaction (:active-yard @db))))
-
-(re-frame/register-sub
  :filtered-animals
  (fn [db _]
    (let [search-filter (re-frame/subscribe [:search-filter])
@@ -91,3 +86,8 @@
  (fn [db _]
    (let [active-animal (re-frame/subscribe [:active-animal])]
      (reaction (get-in @db [:relations @active-animal])))))
+
+(re-frame/register-sub
+ :test
+ (fn [db _]
+   (reaction (:test @db))))

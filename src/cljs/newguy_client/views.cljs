@@ -66,8 +66,9 @@
      {:placeholder "Search"
       :on-change #(re-frame/dispatch
                    [:set-search-filter
-                    (-> % .-target.value)])}]]])
-
+                    (-> % .-target.value)])}]]
+   [:button {:on-click #(re-frame/dispatch [:request-animals])}
+    "Request Animals"]])
 
 (defn yard []
   (let [animals-in-yard (re-frame/subscribe [:animals-in-active-yard])
@@ -99,6 +100,12 @@
      (for [yard @yards]
        ^{:key (:id yard)} [yard-list-component yard])]))
 
+(defn test-panel []
+  (let [test (re-frame/subscribe [:test])]
+    (fn []
+      [:div
+       [:div (str @test)]])))
+
 
 (defn home-panel []
   [:div.container-fluid
@@ -119,10 +126,17 @@
      [:div.btn.btn-danger {:on-drop #(change-animal-yard % nil)
                            :on-drag-over allow-drop
                            :on-drag-star allow-drop} "REMOVE FROM YARD"]]]
-
    [:div.row
     [:div.col-md-12.vertical-center [yard-list]]]])
 
+(defn create-panel []
+  [:div.container-fluid
+   [:div.row
+    [:div.col-md-12.text-center
+     [:h1 "New Guy!"
+      [:h5 "Add an Animal!"]]]]
+   [:div.row
+    [:div.col-md-12]]])
 
 ;; --------------------
 (defn about-title []
@@ -142,9 +156,10 @@
 
 ;; --------------------
 (defmulti panels identity)
-(defmethod panels :home-panel [] [home-panel])
+(defmethod panels :home-panel  [] [home-panel])
+(defmethod panels :create-panel [] [create-panel])
 (defmethod panels :about-panel [] [about-panel])
-(defmethod panels :default [] [:div])
+(defmethod panels :default     [] [:div])
 
 (defn main-panel []
   (let [active-panel (re-frame/subscribe [:active-panel])]

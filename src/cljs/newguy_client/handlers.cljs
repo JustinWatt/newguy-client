@@ -1,7 +1,8 @@
 (ns newguy-client.handlers
   (:require [com.rpl.specter :as s]
             [newguy-client.db :as db]
-            [re-frame.core :as re-frame]))
+            [re-frame.core :as re-frame]
+            [ajax.core :refer [GET POST]]))
 
 (re-frame/register-handler
  :initialize-db
@@ -36,15 +37,29 @@
        (filter #(= yard %))))
 
 (re-frame/register-handler
- :empty-yard
- (fn [db [_ active-yard]]
-   (let [dogs-in-yard (get-dogs-in-yard db active-yard)]
-     (->> db
-          (iterate #(assoc-in db [:animals % :yard_id] nil))
-          (drop (count dogs-in-yard))
-          first))))
-
-(re-frame/register-handler
  :set-active-animal
  (fn [db [_ animal-id]]
    (assoc db :active-animal animal-id)))
+
+(defn key-by-keyword [items keyword-key]
+  (reduce
+   (fn [m item]
+     (assoc m (get item keyword-key) item)) {} items))
+
+(re-frame/register-handler
+ :process-animal-response
+ (fn [db [_ response]]
+   (assoc db :animals (-> (js->clj response)
+                       clojure.walk/keywordize-keys
+                       (key-by-keyword :id)))))
+
+(re-frame/register-handler
+ :request-animals
+ (fn [db _]
+   (ajax.core/GET
+       "http://localhost:3000/animals?"
+       {:handler #(re-frame/dispatch [:process-animal-response %1])
+        :error-handler #(re-frame/dispatch [:bad-animal-response %1])})
+   db))
+
+
